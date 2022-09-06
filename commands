@@ -1,0 +1,675 @@
+user@user-ThinkPad-E14-Gen-2:~$ sudo mysql -u root
+[sudo] password for user: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.29-0ubuntu0.20.04.3 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mynodejs           |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.01 sec)
+
+mysql> create database student;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mynodejs           |
+| mysql              |
+| performance_schema |
+| student            |
+| sys                |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> use student;
+Database changed
+mysql> create table Admission
+    -> adm_no char(10),
+    -> name char(50),
+    -> class int(2),
+    -> dob date,
+    -> percentage decimal(5,2))
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'adm_no char(10),
+name char(50),
+class int(2),
+dob date,
+percentage decimal(5,2))' at line 2
+mysql> create table Admission (adm_no char(10), name char(50), class int(2), dob date, percentage decimal(5,2));
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_student |
++-------------------+
+| Admission         |
++-------------------+
+1 row in set (0.01 sec)
+
+mysql> desc Admission;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| adm_no     | char(10)     | YES  |     | NULL    |       |
+| name       | char(50)     | YES  |     | NULL    |       |
+| class      | int          | YES  |     | NULL    |       |
+| dob        | date         | YES  |     | NULL    |       |
+| percentage | decimal(5,2) | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> alter table Admission
+    -> add (city) char(20),address char(100));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') char(20),address char(100))' at line 2
+mysql> alter table Admission add (city char(20),address char(100));
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Admission;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| adm_no     | char(10)     | YES  |     | NULL    |       |
+| name       | char(50)     | YES  |     | NULL    |       |
+| class      | int          | YES  |     | NULL    |       |
+| dob        | date         | YES  |     | NULL    |       |
+| percentage | decimal(5,2) | YES  |     | NULL    |       |
+| city       | char(20)     | YES  |     | NULL    |       |
+| address    | char(100)    | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> alter table Admission
+    -> modify city varchar(30);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Admission;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| adm_no     | char(10)     | YES  |     | NULL    |       |
+| name       | char(50)     | YES  |     | NULL    |       |
+| class      | int          | YES  |     | NULL    |       |
+| dob        | date         | YES  |     | NULL    |       |
+| percentage | decimal(5,2) | YES  |     | NULL    |       |
+| city       | varchar(30)  | YES  |     | NULL    |       |
+| address    | char(100)    | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> alter table Admission 
+    -> change column address residence char(100);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Admission;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| adm_no     | char(10)     | YES  |     | NULL    |       |
+| name       | char(50)     | YES  |     | NULL    |       |
+| class      | int          | YES  |     | NULL    |       |
+| dob        | date         | YES  |     | NULL    |       |
+| percentage | decimal(5,2) | YES  |     | NULL    |       |
+| city       | varchar(30)  | YES  |     | NULL    |       |
+| residence  | char(100)    | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> alter table Admission  
+    -> drop column residence;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table Admission   
+    -> rename to admissions;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_student |
++-------------------+
+| admissions        |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> alter table Admissions  rename to admission;
+ERROR 1146 (42S02): Table 'student.Admissions' doesn't exist
+mysql> alter table admissions  rename to admission;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_student |
++-------------------+
+| admission         |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> desc admission;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| adm_no     | char(10)     | YES  |     | NULL    |       |
+| name       | char(50)     | YES  |     | NULL    |       |
+| class      | int          | YES  |     | NULL    |       |
+| dob        | date         | YES  |     | NULL    |       |
+| percentage | decimal(5,2) | YES  |     | NULL    |       |
+| city       | varchar(30)  | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> insert into admission
+    -> values('10001','Hemant',15,'1996-02-14',79.7,'nashik');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into admission values('10002','ganesh',15,'1999-02-24',49.7,'pune');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from admission;
++--------+--------+-------+------------+------------+--------+
+| adm_no | name   | class | dob        | percentage | city   |
++--------+--------+-------+------------+------------+--------+
+| 10001  | Hemant |    15 | 1996-02-14 |      79.70 | nashik |
+| 10002  | ganesh |    15 | 1999-02-24 |      49.70 | pune   |
++--------+--------+-------+------------+------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> update admission 
+    -> set class=14;
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from admission;
++--------+--------+-------+------------+------------+--------+
+| adm_no | name   | class | dob        | percentage | city   |
++--------+--------+-------+------------+------------+--------+
+| 10001  | Hemant |    14 | 1996-02-14 |      79.70 | nashik |
+| 10002  | ganesh |    14 | 1999-02-24 |      49.70 | pune   |
++--------+--------+-------+------------+------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> update admission  set class=14 where adm_no='10002';
+Query OK, 0 rows affected (0.01 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> select * from admission;
++--------+--------+-------+------------+------------+--------+
+| adm_no | name   | class | dob        | percentage | city   |
++--------+--------+-------+------------+------------+--------+
+| 10001  | Hemant |    14 | 1996-02-14 |      79.70 | nashik |
+| 10002  | ganesh |    14 | 1999-02-24 |      49.70 | pune   |
++--------+--------+-------+------------+------------+--------+
+2 rows in set (0.01 sec)
+
+mysql> insert into admission(adm_no)
+    -> values('dummy');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from admission;
++--------+--------+-------+------------+------------+--------+
+| adm_no | name   | class | dob        | percentage | city   |
++--------+--------+-------+------------+------------+--------+
+| 10001  | Hemant |    14 | 1996-02-14 |      79.70 | nashik |
+| 10002  | ganesh |    14 | 1999-02-24 |      49.70 | pune   |
+| dummy  | NULL   |  NULL | NULL       |       NULL | NULL   |
++--------+--------+-------+------------+------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> delete from admission
+    -> where adm_no='dummy';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from admission;
++--------+--------+-------+------------+------------+--------+
+| adm_no | name   | class | dob        | percentage | city   |
++--------+--------+-------+------------+------------+--------+
+| 10001  | Hemant |    14 | 1996-02-14 |      79.70 | nashik |
+| 10002  | ganesh |    14 | 1999-02-24 |      49.70 | pune   |
++--------+--------+-------+------------+------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> insert into admission values('10003','neha',12,'1999-02-24',49.7,'nagpur');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into admission values('10004','vrushali',17,'1998-02-23',40.7,'hadpasar');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into admission values('10005','poonam',18,'1998-02-28',67.7,'loni');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from admission;
++--------+----------+-------+------------+------------+----------+
+| adm_no | name     | class | dob        | percentage | city     |
++--------+----------+-------+------------+------------+----------+
+| 10001  | Hemant   |    14 | 1996-02-14 |      79.70 | nashik   |
+| 10002  | ganesh   |    14 | 1999-02-24 |      49.70 | pune     |
+| 10003  | neha     |    12 | 1999-02-24 |      49.70 | nagpur   |
+| 10004  | vrushali |    17 | 1998-02-23 |      40.70 | hadpasar |
+| 10005  | poonam   |    18 | 1998-02-28 |      67.70 | loni     |
++--------+----------+-------+------------+------------+----------+
+5 rows in set (0.00 sec)
+
+mysql> insert into admission values('10006','priya',19,'1996-02-22',67.4,'uruli');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into admission values('10007','abhii',19,'1996-02-22',67.4,'baramati');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from admission;
++--------+----------+-------+------------+------------+----------+
+| adm_no | name     | class | dob        | percentage | city     |
++--------+----------+-------+------------+------------+----------+
+| 10001  | Hemant   |    14 | 1996-02-14 |      79.70 | nashik   |
+| 10002  | ganesh   |    14 | 1999-02-24 |      49.70 | pune     |
+| 10003  | neha     |    12 | 1999-02-24 |      49.70 | nagpur   |
+| 10004  | vrushali |    17 | 1998-02-23 |      40.70 | hadpasar |
+| 10005  | poonam   |    18 | 1998-02-28 |      67.70 | loni     |
+| 10006  | priya    |    19 | 1996-02-22 |      67.40 | uruli    |
+| 10007  | abhii    |    19 | 1996-02-22 |      67.40 | baramati |
++--------+----------+-------+------------+------------+----------+
+7 rows in set (0.00 sec)
+
+mysql> insert into admission values('10002','mansi',19,'1996-02-22',67.4,'baramati');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into admission values('100010','shruti',19,'1996-02-22',67.4,'pune');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into admission values('10008','sonali',19,'1996-02-22',67.4,'pune');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from admission;
++--------+----------+-------+------------+------------+----------+
+| adm_no | name     | class | dob        | percentage | city     |
++--------+----------+-------+------------+------------+----------+
+| 10001  | Hemant   |    14 | 1996-02-14 |      79.70 | nashik   |
+| 10002  | ganesh   |    14 | 1999-02-24 |      49.70 | pune     |
+| 10003  | neha     |    12 | 1999-02-24 |      49.70 | nagpur   |
+| 10004  | vrushali |    17 | 1998-02-23 |      40.70 | hadpasar |
+| 10005  | poonam   |    18 | 1998-02-28 |      67.70 | loni     |
+| 10006  | priya    |    19 | 1996-02-22 |      67.40 | uruli    |
+| 10007  | abhii    |    19 | 1996-02-22 |      67.40 | baramati |
+| 10002  | mansi    |    19 | 1996-02-22 |      67.40 | baramati |
+| 100010 | shruti   |    19 | 1996-02-22 |      67.40 | pune     |
+| 10008  | sonali   |    19 | 1996-02-22 |      67.40 | pune     |
++--------+----------+-------+------------+------------+----------+
+10 rows in set (0.00 sec)
+
+mysql> select *
+    -> from admission
+    -> Order By adm_no;
++--------+----------+-------+------------+------------+----------+
+| adm_no | name     | class | dob        | percentage | city     |
++--------+----------+-------+------------+------------+----------+
+| 10001  | Hemant   |    14 | 1996-02-14 |      79.70 | nashik   |
+| 100010 | shruti   |    19 | 1996-02-22 |      67.40 | pune     |
+| 10002  | ganesh   |    14 | 1999-02-24 |      49.70 | pune     |
+| 10002  | mansi    |    19 | 1996-02-22 |      67.40 | baramati |
+| 10003  | neha     |    12 | 1999-02-24 |      49.70 | nagpur   |
+| 10004  | vrushali |    17 | 1998-02-23 |      40.70 | hadpasar |
+| 10005  | poonam   |    18 | 1998-02-28 |      67.70 | loni     |
+| 10006  | priya    |    19 | 1996-02-22 |      67.40 | uruli    |
+| 10007  | abhii    |    19 | 1996-02-22 |      67.40 | baramati |
+| 10008  | sonali   |    19 | 1996-02-22 |      67.40 | pune     |
++--------+----------+-------+------------+------------+----------+
+10 rows in set (0.01 sec)
+
+mysql> select * from admission Order By adm_no desc;
++--------+----------+-------+------------+------------+----------+
+| adm_no | name     | class | dob        | percentage | city     |
++--------+----------+-------+------------+------------+----------+
+| 10008  | sonali   |    19 | 1996-02-22 |      67.40 | pune     |
+| 10007  | abhii    |    19 | 1996-02-22 |      67.40 | baramati |
+| 10006  | priya    |    19 | 1996-02-22 |      67.40 | uruli    |
+| 10005  | poonam   |    18 | 1998-02-28 |      67.70 | loni     |
+| 10004  | vrushali |    17 | 1998-02-23 |      40.70 | hadpasar |
+| 10003  | neha     |    12 | 1999-02-24 |      49.70 | nagpur   |
+| 10002  | ganesh   |    14 | 1999-02-24 |      49.70 | pune     |
+| 10002  | mansi    |    19 | 1996-02-22 |      67.40 | baramati |
+| 100010 | shruti   |    19 | 1996-02-22 |      67.40 | pune     |
+| 10001  | Hemant   |    14 | 1996-02-14 |      79.70 | nashik   |
++--------+----------+-------+------------+------------+----------+
+10 rows in set (0.00 sec)
+
+mysql> select * from admission Order By  name,adm_no desc;
++--------+----------+-------+------------+------------+----------+
+| adm_no | name     | class | dob        | percentage | city     |
++--------+----------+-------+------------+------------+----------+
+| 10007  | abhii    |    19 | 1996-02-22 |      67.40 | baramati |
+| 10002  | ganesh   |    14 | 1999-02-24 |      49.70 | pune     |
+| 10001  | Hemant   |    14 | 1996-02-14 |      79.70 | nashik   |
+| 10002  | mansi    |    19 | 1996-02-22 |      67.40 | baramati |
+| 10003  | neha     |    12 | 1999-02-24 |      49.70 | nagpur   |
+| 10005  | poonam   |    18 | 1998-02-28 |      67.70 | loni     |
+| 10006  | priya    |    19 | 1996-02-22 |      67.40 | uruli    |
+| 100010 | shruti   |    19 | 1996-02-22 |      67.40 | pune     |
+| 10008  | sonali   |    19 | 1996-02-22 |      67.40 | pune     |
+| 10004  | vrushali |    17 | 1998-02-23 |      40.70 | hadpasar |
++--------+----------+-------+------------+------------+----------+
+10 rows in set (0.00 sec)
+
+mysql> select * from admission wherw dob is not null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dob is not null' at line 1
+mysql> select * from admission where dob is not null;
++--------+----------+-------+------------+------------+----------+
+| adm_no | name     | class | dob        | percentage | city     |
++--------+----------+-------+------------+------------+----------+
+| 10001  | Hemant   |    14 | 1996-02-14 |      79.70 | nashik   |
+| 10002  | ganesh   |    14 | 1999-02-24 |      49.70 | pune     |
+| 10003  | neha     |    12 | 1999-02-24 |      49.70 | nagpur   |
+| 10004  | vrushali |    17 | 1998-02-23 |      40.70 | hadpasar |
+| 10005  | poonam   |    18 | 1998-02-28 |      67.70 | loni     |
+| 10006  | priya    |    19 | 1996-02-22 |      67.40 | uruli    |
+| 10007  | abhii    |    19 | 1996-02-22 |      67.40 | baramati |
+| 10002  | mansi    |    19 | 1996-02-22 |      67.40 | baramati |
+| 100010 | shruti   |    19 | 1996-02-22 |      67.40 | pune     |
+| 10008  | sonali   |    19 | 1996-02-22 |      67.40 | pune     |
++--------+----------+-------+------------+------------+----------+
+10 rows in set (0.00 sec)
+
+mysql> select adm_no,name
+    -> from admission
+    -> where class=17;
++--------+----------+
+| adm_no | name     |
++--------+----------+
+| 10004  | vrushali |
++--------+----------+
+1 row in set (0.00 sec)
+
+mysql> select adm_no,name from admission where city='nashik';
++--------+--------+
+| adm_no | name   |
++--------+--------+
+| 10001  | Hemant |
++--------+--------+
+1 row in set (0.00 sec)
+
+mysql> select adm_no,name from admission where percentage>70;
++--------+--------+
+| adm_no | name   |
++--------+--------+
+| 10001  | Hemant |
++--------+--------+
+1 row in set (0.01 sec)
+
+mysql> select adm_no,name from admission where percentage<>70;
++--------+----------+
+| adm_no | name     |
++--------+----------+
+| 10001  | Hemant   |
+| 10002  | ganesh   |
+| 10003  | neha     |
+| 10004  | vrushali |
+| 10005  | poonam   |
+| 10006  | priya    |
+| 10007  | abhii    |
+| 10002  | mansi    |
+| 100010 | shruti   |
+| 10008  | sonali   |
++--------+----------+
+10 rows in set (0.00 sec)
+
+mysql> select adm_no,name from admission where percentage< 60 AND percentage>=45;
++--------+--------+
+| adm_no | name   |
++--------+--------+
+| 10002  | ganesh |
+| 10003  | neha   |
++--------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select adm_no,name from admission where percentage between 45 and 60;
++--------+--------+
+| adm_no | name   |
++--------+--------+
+| 10002  | ganesh |
+| 10003  | neha   |
++--------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select adm_no,name from admission where name like '%r%';
++--------+----------+
+| adm_no | name     |
++--------+----------+
+| 10004  | vrushali |
+| 10006  | priya    |
+| 100010 | shruti   |
++--------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select adm_no,name from admission where name like '_k%';
+Empty set (0.00 sec)
+
+mysql> select adm_no,name from admission where name like '_t%';
+Empty set (0.00 sec)
+
+mysql> select adm_no,name from admission where name like '_n%';
+Empty set (0.00 sec)
+
+mysql> select adm_no,name from admission where name like '_s%';
+Empty set (0.01 sec)
+
+mysql> select adm_no,name from admission where name like '%r%k%';
+Empty set (0.00 sec)
+
+mysql> select adm_no,name from admission where name like '%r%';
++--------+----------+
+| adm_no | name     |
++--------+----------+
+| 10004  | vrushali |
+| 10006  | priya    |
+| 100010 | shruti   |
++--------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select distinct city from admission;
++----------+
+| city     |
++----------+
+| nashik   |
+| pune     |
+| nagpur   |
+| hadpasar |
+| loni     |
+| uruli    |
+| baramati |
++----------+
+7 rows in set (0.01 sec)
+
+mysql>  select sum(percentage)
+    -> from admission
+    -> where city='nashik';
++-----------------+
+| sum(percentage) |
++-----------------+
+|           79.70 |
++-----------------+
+1 row in set (0.01 sec)
+
+mysql> select max(percentage) from admission;
++-----------------+
+| max(percentage) |
++-----------------+
+|           79.70 |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> select min(percentage) from admission;
++-----------------+
+| min(percentage) |
++-----------------+
+|           40.70 |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(percentage) from admission;
++-----------------+
+| avg(percentage) |
++-----------------+
+|       62.450000 |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> select count(dob) from admission;
++------------+
+| count(dob) |
++------------+
+|         10 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select count(*) from admission;
++----------+
+| count(*) |
++----------+
+|       10 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select max(name)from admission;
++-----------+
+| max(name) |
++-----------+
+| vrushali  |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select sum(name)from admission;
++-----------+
+| sum(name) |
++-----------+
+|         0 |
++-----------+
+1 row in set, 10 warnings (0.00 sec)
+
+mysql> select avg(name)from admission;
++-----------+
+| avg(name) |
++-----------+
+|         0 |
++-----------+
+1 row in set, 10 warnings (0.00 sec)
+
+mysql> select city,count(*) from admission group by city;
++----------+----------+
+| city     | count(*) |
++----------+----------+
+| nashik   |        1 |
+| pune     |        3 |
+| nagpur   |        1 |
+| hadpasar |        1 |
+| loni     |        1 |
+| uruli    |        1 |
+| baramati |        2 |
++----------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select city,class(*) from admission group by class;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*) from admission group by class' at line 1
+mysql> select class,count(*) from admission group by class;
++-------+----------+
+| class | count(*) |
++-------+----------+
+|    14 |        2 |
+|    12 |        1 |
+|    17 |        1 |
+|    18 |        1 |
+|    19 |        5 |
++-------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select class,max(percentage),min(percentage)from admission;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'student.admission.class'; this is incompatible with sql_mode=only_full_group_by
+mysql> select class,max(percentage),min(percentage) from admission group by class;
++-------+-----------------+-----------------+
+| class | max(percentage) | min(percentage) |
++-------+-----------------+-----------------+
+|    14 |           79.70 |           49.70 |
+|    12 |           49.70 |           49.70 |
+|    17 |           40.70 |           40.70 |
+|    18 |           67.70 |           67.70 |
+|    19 |           67.40 |           67.40 |
++-------+-----------------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql> select class,avg(percentage) from admission group by class having class>10;
++-------+-----------------+
+| class | avg(percentage) |
++-------+-----------------+
+|    14 |       64.700000 |
+|    12 |       49.700000 |
+|    17 |       40.700000 |
+|    18 |       67.700000 |
+|    19 |       67.400000 |
++-------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql> create table exam adm_no char(10), mark int(2), remarks char(50));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'adm_no char(10), mark int(2), remarks char(50))' at line 1
+mysql> create table exam adm_no char(10), mark int(2), remarks char(50);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'adm_no char(10), mark int(2), remarks char(50)' at line 1
+mysql> create table exam (adm_no char(10), mark int(2), remarks char(50));
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+
+mysql> insert into exam values('101',78,'a');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into exam values('102',74,'a');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into exam values('103',79,'b');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from exam;
++--------+------+---------+
+| adm_no | mark | remarks |
++--------+------+---------+
+| 101    |   78 | a       |
+| 102    |   74 | a       |
+| 103    |   79 | b       |
++--------+------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select * from admission,exam where admission.adm_no=exam.adm_no;
+Empty set (0.00 sec)
+
+mysql> select * from admission Natural Join exam;
+Empty set (0.00 sec)
+
+mysql> insert into exam values('10001',79,'b');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from admission Natural Join exam;
++--------+--------+-------+------------+------------+--------+------+---------+
+| adm_no | name   | class | dob        | percentage | city   | mark | remarks |
++--------+--------+-------+------------+------------+--------+------+---------+
+| 10001  | Hemant |    14 | 1996-02-14 |      79.70 | nashik |   79 | b       |
++--------+--------+-------+------------+------------+--------+------+---------+
+1 row in set (0.00 sec)
+
+mysql> 
+
+
+
